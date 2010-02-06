@@ -1,0 +1,11 @@
+css-lite is a library for generating CSS from an s-exp based
+syntax. When compiled with Parenscript
+(http://common-lisp.net/project/parenscript/) loaded in the Lisp
+image, it also provides the same CSS generation facilities in
+Parenscript-generated JavaScript code.
+
+The author, Vladimir Sedach, can be contacted at vsedach@gmail.com and
+welcomes questions, bug reports and patches.
+
+For license and copyright information (BSD), see the file COPYING
+included with the distribution.
