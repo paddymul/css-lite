@@ -39,7 +39,7 @@ border:1px solid red;
 
 ;; now with cascading 
       ("#foo") (:length "50px" my-css-var my-macroed-css-var)  
-      (("#foo") (:width "50px" :float "left"  my-css-var my-macroed-css-var))))
+      (("li") (:width "50px" :float "left"  my-css-var my-macroed-css-var))))
 
 "
 #foo {
@@ -48,7 +48,7 @@ margin:50px 30px;
 border:1px solid red;
 }
 
-#foo #foo {
+#foo li {
 width:50px;
 float:left;
 margin:50px 30px;
@@ -104,4 +104,5 @@ border:1px solid red;
 ;;
 ;; comments end up looking like this /* comment text :*/; notice the
 ;; colon before the closing */
+
 
