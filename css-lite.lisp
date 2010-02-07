@@ -52,11 +52,14 @@
             `(to-string ,val)) ";")))
 
 
+(defun css-var-p (val)
+  (get val 'css-var))
+
 (defun should-expand (x)
   (cond ((stringp x) x)
 	((symbolp x) 
          ;(print "x is a symbol")
-         (if (get x 'css-var) ;; we want to expand our css-vars
+         (if (css-var-p x) ;; we want to expand our css-vars
              (progn 
                ;(print "x is a css-var")
                (symbol-value x))
