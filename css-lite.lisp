@@ -132,3 +132,9 @@
                 (if (and (listp x) (eql 'quote (car x)))
                     (ps:symbol-to-js-string (second x))
                     x))
+
+
+(defmacro make-css-var (var-name var-val)
+  `(progn 
+     (setq ,var-name ,var-val)
+     (setf (get ',var-name 'css-var) t)))
