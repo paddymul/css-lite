@@ -20,6 +20,11 @@
      (setq ,var-name ,var-val)
      (setf (get ',var-name 'css-var) t)))
 
+(defmacro make-css-func (func-name &body forms)
+  `(progn
+     (defun ,func-name ,@forms)
+     (setf (get ',func-name 'css-func) t)))
+
 
 ;;; implementation
 
@@ -41,41 +46,42 @@
 
 (defvar +newline+ (format nil "~%"))
 
+
+(defun css-func-p (val)
+  (if (symbolp val)
+      (get val 'css-func)
+      nil))
+
+
+(defun css-var-p (val)
+  (if (symbolp val)
+      (get val 'css-var)
+      nil))
+
+(defun expand-tree (tree)
+  (let ((result '()))
+    (labels ((scan (item)
+               (if (listp item)
+                   (if (css-func-p (car item))
+                       ;; this calls the function
+                       (scan (eval `(,(car item) ,@(cdr item)))) 
+                   (map nil #'scan item))
+                   (if (css-var-p item)
+                       (scan (symbol-value item))
+                    (push item result)))))
+      (scan tree))
+    (nreverse result)))
+
+
 (defun process-css-properties (properties eval-vals &key (newlines t))
   (loop for (name val) on
-       (flatten (mapcar #'should-expand (flatten properties)))
+       (expand-tree properties)
      by #'cddr appending
        (list 
         (if newlines +newline+ "") 
         (to-string name) ":" 
         (if eval-vals (to-string val) 
             `(to-string ,val)) ";")))
-
-
-(defun css-var-p (val)
-  (get val 'css-var))
-
-(defun should-expand (x)
-  (cond ((stringp x) x)
-	((symbolp x) 
-         ;(print "x is a symbol")
-         (if (css-var-p x) ;; we want to expand our css-vars
-             (progn 
-               ;(print "x is a css-var")
-               (symbol-value x))
-             (string-downcase (symbol-name x))))
-        ((listp x) 
-                                        ;(print "x is a list")
-         (apply #'concatenate 'string
-
-                          (loop for (val . rest) on x
-                                with comma = ", "
-                                unless rest do (setf comma "")
-                                collect (if (stringp val)
-                                            (format nil "'~a'" val)
-                                            (to-string val))
-                                collect comma)))
-	(t (princ-to-string x))))
 
 (defun process-css-rule (rule &key (parent-selectors nil))
   (let ((selectors (if parent-selectors

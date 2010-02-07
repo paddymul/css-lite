@@ -1,5 +1,6 @@
 (in-package "CSS-LITE")
 
+;; currently unused
 (defun flatten (tree)
   (let ((result '()))
     (labels ((scan (item)

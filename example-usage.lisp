@@ -1,7 +1,7 @@
 (in-package css-lite)
 
 ;;simple usage
-(css (("#foo") (:bar "50px")))
+(css (("#foo") (:height "50px")))
 "
 #foo {
 bar:50px;
@@ -40,6 +40,27 @@ border:1px solid red;
       (("#foo") (:bar "50px" my-css-var my-macroed-css-var))))
 "
 #foo {
+bar:50px;
+inside-var:50px 30px;
+border:1px solid red;
+}
+
+#foo #foo {
+bar:50px;
+inside-var:50px 30px;
+border:1px solid red;
+}
+"
+;;now with functions
+(make-css-func foo-func2 (avar) (list avar avar))
+
+(css (
+      ("#foo") ((foo-func2 "should-be-repeated") :bar "50px" my-css-var my-macroed-css-var)  
+      (("#foo") (:bar "50px" my-css-var my-macroed-css-var))))
+
+"
+#foo {
+should-be-repeated:should-be-repeated;
 bar:50px;
 inside-var:50px 30px;
 border:1px solid red;
