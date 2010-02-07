@@ -32,3 +32,22 @@ bar:50px;
 inside-var:50px 30px;
 border:1px solid red;
 }"
+
+
+;; now with cascading 
+(css (
+      ("#foo") (:bar "50px" my-css-var my-macroed-css-var)  
+      (("#foo") (:bar "50px" my-css-var my-macroed-css-var))))
+"
+#foo {
+bar:50px;
+inside-var:50px 30px;
+border:1px solid red;
+}
+
+#foo #foo {
+bar:50px;
+inside-var:50px 30px;
+border:1px solid red;
+}
+"

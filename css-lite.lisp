@@ -71,7 +71,6 @@
 
 
 (defun process-css-properties (properties eval-vals &key (newlines t))
-
   (loop for (name val) on
        (flatten (mapcar #'should-expand (flatten properties)))
      by #'cddr appending
@@ -104,10 +103,19 @@
                                 collect comma)))
 	(t (princ-to-string x))))
 
-(defun process-css-rule (rule)
-  (append (list +newline+ (css-selectors-to-string (car rule)) " {")
-          (process-css-properties (cdr rule) nil)
-          (list +newline+ "}")))
+(defun process-css-rule (rule &key (parent-selectors nil))
+  (let ((selectors (if parent-selectors
+                       (flatten (list parent-selectors (car rule)))
+                       (car rule)))
+        (properties (cadr rule))
+        (children-rules (cddr rule)))
+    (append (list +newline+ (css-selectors-to-string selectors) " {")
+            (process-css-properties properties nil)
+            (list +newline+ "}" +newline+)
+            (mapcan 
+             #'(lambda (child-rules) 
+                 (process-css-rule child-rules :parent-selectors selectors))
+             children-rules))))
 
 #-parenscript (defun css-id-name (symbol)
                 (format nil "#~(~a~)" symbol))
