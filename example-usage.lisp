@@ -1,7 +1,7 @@
 (in-package css-lite)
 
 ;;simple usage
-(css (("#foo") :bar "50px"))
+(css (("#foo") (:bar "50px")))
 "
 #foo {
 bar:50px;
@@ -13,7 +13,7 @@ bar:50px;
 (setf (get 'my-css-var 'css-var) t)
 
 ;; using that css-variable
-(css (("#foo") :bar "50px" my-css-var))
+(css (("#foo") (:bar "50px" my-css-var)))
 "
 #foo {
 bar:50px;
@@ -25,7 +25,7 @@ inside-var:50px 30px;
 (make-css-var my-macroed-css-var '(:border "1px solid red"))
 
 ;;using that variable
-(css (("#foo") :bar "50px" my-css-var my-macroed-css-var))
+(css (("#foo") (:bar "50px" my-css-var my-macroed-css-var)))
 "
 #foo {
 bar:50px;
