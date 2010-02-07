@@ -25,6 +25,13 @@
      (defun ,func-name ,@forms)
      (setf (get ',func-name 'css-func) t)))
 
+(make-css-func comment (comment-string) (list (concatenate 'string "/*" comment-string) "*/"))
+
+;; note this is a bit of a hack
+;;
+;; comments end up looking like this /* comment text :*/; notice the
+;; colon before the closing */
+
 
 ;;; implementation
 

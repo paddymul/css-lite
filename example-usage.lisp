@@ -72,3 +72,31 @@ inside-var:50px 30px;
 border:1px solid red;
 }
 "
+;; now with comments
+(make-css-func comment (comment-string) (list (concatenate 'string "/*" comment-string) "*/"))
+(css (
+      ("#foo") ((comment "a comment" ) (foo-func2 "should-be-repeated") :bar "50px" my-css-var my-macroed-css-var)  
+      (("#foo") (:bar "50px" my-css-var my-macroed-css-var))))
+
+"
+#foo {
+/*a comment:*/;
+should-be-repeated:should-be-repeated;
+bar:50px;
+inside-var:50px 30px;
+border:1px solid red;
+}
+
+#foo #foo {
+bar:50px;
+inside-var:50px 30px;
+border:1px solid red;
+}
+"
+
+
+;; note this is a bit of a hack
+;;
+;; comments end up looking like this /* comment text :*/; notice the
+;; colon before the closing */
+
