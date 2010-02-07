@@ -4,5 +4,9 @@
   :serial t
   :version "0.01"
   :components ((:file "package")
-               (:file "css-lite")))
+               
+               (:file "css-lite")
+               (:file "utility")
+               (:file "lite-utility")
+               (:file "paren-css-lite")))
 
