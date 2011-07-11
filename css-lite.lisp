@@ -4,6 +4,20 @@
 
 (defvar *css-stream* nil)
 
+(defvar *indent-css* nil
+  "Indicates if the properties of a selector should be indented or not.
+
+There are three possible values:
+
+* nil - The default value, and indicates that no indentation should be
+  applied
+
+* the symbol 'tab - Indicates that the properties should be indented
+  using the #\Tab character
+
+* an integer greater than 0 - Indicates how many #\Space characters
+  should be used to indent the properties")
+
 (defmacro css (&body rules)
   `(format *css-stream* "~@{~A~}" ,@(mapcan #'process-css-rule rules)))
 
@@ -85,8 +99,19 @@
        (expand-tree properties)
      by #'cddr appending
        (list 
-        (if newlines +newline+ "") 
-        (to-string name) ":" 
+        (if newlines +newline+ "")
+        (concatenate 'string 
+          ;; Indent the property as specified in the variable `*indent-css*'
+          (cond ((null *indent-css*) "")
+            ((equal *indent-css* 'tab)
+              (string #\Tab))
+            ((plusp *indent-css*)
+              (make-string *indent-css* :initial-element #\Space))
+            ;; XXX: If the value of `*indent-css*' is invalid, this
+            ;; `cond' does the same thing as if `*indent-css*' had the
+            ;; value `nil'. Should it raise an error?
+            )
+          (to-string name) ":")
         (if eval-vals (to-string val) 
             `(to-string ,val)) ";")))
 
