@@ -106,3 +106,73 @@ border:1px solid red;
 ;; colon before the closing */
 
 
+;; To change the indentation of the properties, use the variable *indent-css*
+
+;; Use tabs to indent
+(setf *indent-css* 'tab)
+
+(css (
+      ("#foo") ((comment "a comment" ) (foo-func2 "should-be-repeated") :height "50px" my-css-var my-favorite-border-var)
+      (("li") (:width "50px" my-css-var my-favorite-border-var))))
+
+"
+#foo {
+	/*a comment:*/;
+	should-be-repeated:should-be-repeated;
+	height:50px;
+	margin:50px 30px;
+	border:1px solid red;
+}
+
+#foo li {
+	width:50px;
+	margin:50px 30px;
+	border:1px solid red;
+}
+"
+
+;; Use a number of spaces
+(setf *indent-css* 2)
+
+(css (
+      ("#foo") ((comment "a comment" ) (foo-func2 "should-be-repeated") :height "50px" my-css-var my-favorite-border-var)
+      (("li") (:width "50px" my-css-var my-favorite-border-var))))
+
+"
+#foo {
+  /*a comment:*/;
+  should-be-repeated:should-be-repeated;
+  height:50px;
+  margin:50px 30px;
+  border:1px solid red;
+}
+
+#foo li {
+  width:50px;
+  margin:50px 30px;
+  border:1px solid red;
+}
+"
+
+;; To get the default behaviour (no indentation), set the value of *indent-css* to nil.
+(setf *indent-css* nil)
+
+(css (
+      ("#foo") ((comment "a comment" ) (foo-func2 "should-be-repeated") :height "50px" my-css-var my-favorite-border-var)
+      (("li") (:width "50px" my-css-var my-favorite-border-var))))
+
+"
+#foo {
+/*a comment:*/;
+should-be-repeated:should-be-repeated;
+height:50px;
+margin:50px 30px;
+border:1px solid red;
+}
+
+#foo li {
+width:50px;
+margin:50px 30px;
+border:1px solid red;
+}
+"
