@@ -86,7 +86,7 @@ border:1px solid red;
 
 "
 #foo {
-/*a comment:*/;
+/*a comment*/
 should-be-repeated:should-be-repeated;
 height:50px;
 margin:50px 30px;
@@ -100,12 +100,6 @@ border:1px solid red;
 }
 "
 
-;; note this is a bit of a hack
-;;
-;; comments end up looking like this /* comment text :*/; notice the
-;; colon before the closing */
-
-
 ;; To change the indentation of the properties, use the variable *indent-css*
 
 ;; Use tabs to indent
@@ -117,7 +111,7 @@ border:1px solid red;
 
 "
 #foo {
-	/*a comment:*/;
+	/*a comment*/
 	should-be-repeated:should-be-repeated;
 	height:50px;
 	margin:50px 30px;
@@ -140,7 +134,7 @@ border:1px solid red;
 
 "
 #foo {
-  /*a comment:*/;
+  /*a comment*/
   should-be-repeated:should-be-repeated;
   height:50px;
   margin:50px 30px;
@@ -163,7 +157,7 @@ border:1px solid red;
 
 "
 #foo {
-/*a comment:*/;
+/*a comment*/
 should-be-repeated:should-be-repeated;
 height:50px;
 margin:50px 30px;

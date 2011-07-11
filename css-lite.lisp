@@ -79,6 +79,10 @@ There are three possible values:
       (get val 'css-var)
       nil))
 
+(defun css-comment-p (val)
+  "Return T if `val' is the start of a CSS comment, otherwise return NIL."
+  (string= val "/*" :end1 2))
+
 (defun expand-tree (tree)
   (let ((result '()))
     (labels ((scan (item)
@@ -111,9 +115,17 @@ There are three possible values:
             ;; `cond' does the same thing as if `*indent-css*' had the
             ;; value `nil'. Should it raise an error?
             )
-          (to-string name) ":")
+          (to-string name)
+          ;; Only add the ':' character if this isn't a comment
+          (unless (css-comment-p name)
+            ":"))
         (if eval-vals (to-string val) 
-            `(to-string ,val)) ";")))
+            `(to-string ,val))
+         ;; The ';' character should only be added if this isn't a
+         ;; comment
+         (if (css-comment-p name)
+           ""
+           ";"))))
 
 (defun process-css-rule (rule &key (parent-selectors nil))
   (let ((selectors (if parent-selectors
