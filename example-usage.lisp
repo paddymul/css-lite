@@ -37,9 +37,9 @@ border:1px solid red;
 "
 
 
-;; now with cascading 
-      ("#foo") (:length "50px" my-css-var my-macroed-css-var)  
-      (("li") (:width "50px" :float "left"  my-css-var my-macroed-css-var))))
+;; now with cascading
+(css (("#foo") (:length "50px" my-css-var my-favorite-border-var)  
+      (("li") (:width "50px" :float "left"  my-css-var my-favorite-border-var))))
 
 "
 #foo {
