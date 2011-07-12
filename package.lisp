@@ -9,4 +9,5 @@
            #:px
            #:make-css-var
            #:make-css-func
+           #:comment
            #:%))

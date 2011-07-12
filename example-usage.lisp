@@ -79,7 +79,6 @@ border:1px solid red;
 }
 "
 ;; now with comments
-(make-css-func comment (comment-string) (list (concatenate 'string "/*" comment-string) "*/"))
 (css (
       ("#foo") ((comment "a comment" ) (foo-func2 "should-be-repeated") :height "50px" my-css-var my-favorite-border-var)
       (("li") (:width "50px" my-css-var my-favorite-border-var))))
