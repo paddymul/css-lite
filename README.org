@@ -42,8 +42,8 @@ Parenscript-generated JavaScript code.
    By default, css-lite doesn't indent the properties. If you wish to
    indent them, see the documentation for the variable
    =css-lite:*indent-css*=, or the section "Change the indentation" of
-   this README. For example, if you change its value to 4, this would
-   be the output:
+   this README. For example, if you change the value of the variable
+   =css-lite:*indent-css*= to 4, this would be the output:
 
 #+BEGIN_EXAMPLE
    "
@@ -166,7 +166,7 @@ Parenscript-generated JavaScript code.
 
    This function is declared using the macro =css-lite:make-css-func=
    and can receive any number of arguments. However, it should return
-   a list with 2 values, the first being the name of the property of
+   a list with 2 values, the first being the name of the property and
    the second its value.
 
    For example, to create a function that receives the name of a
@@ -276,10 +276,10 @@ Parenscript-generated JavaScript code.
   (setf css-lite:*indent-css* 4)
 #+END_EXAMPLE
 
-  The next time you call as =css-lite:css= function, the code will be
+  The next time you call the =css-lite:css= function, the code will be
   indented with 4 spaces.
 
-  For example, the function =css-lite:css= with this value:
+  For example, the calling function =css-lite:css= with this value:
 
 #+BEGIN_EXAMPLE
  (css-lite:css
