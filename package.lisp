@@ -7,5 +7,6 @@
            #:inline-css
            #:pt
            #:px
-           #:make-css-var 
+           #:make-css-var
+           #:make-css-func
            #:%))
