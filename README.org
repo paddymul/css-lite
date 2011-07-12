@@ -6,7 +6,7 @@ Parenscript-generated JavaScript code.
 * Instalation
   First, install [[http://www.quicklisp.org/beta/#installation][Quicklisp]].
 
-  After that, time in your Lisp prompt the following:
+  After that, type in your Lisp prompt the following:
 
 #+BEGIN_SRC lisp
   (ql:quickload 'css-lite)
@@ -25,10 +25,10 @@ Parenscript-generated JavaScript code.
 
    Set the width of the "body" tag to be 70%
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
   (css-lite:css
     (("body") (:width "70%")))
-#+END_SRC lisp
+#+END_EXAMPLE
 
    Output:
 #+BEGIN_EXAMPLE
@@ -41,7 +41,9 @@ Parenscript-generated JavaScript code.
 
    By default, css-lite doesn't indent the properties. If you wish to
    indent them, see the documentation for the variable
-   =css-lite:*indent-css*=. For example, if you change its value to 4, this would be the output:
+   =css-lite:*indent-css*=, or the section "Change the indentation" of
+   this README. For example, if you change its value to 4, this would
+   be the output:
 
 #+BEGIN_EXAMPLE
    "
@@ -55,12 +57,12 @@ Parenscript-generated JavaScript code.
 
    Set the height of the ID "foo" to 50px and the width to 10em
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
    (css-lite:css
      (("#foo")
        (:height "50px"
         :width "10em")))
-#+END_SRC lisp
+#+END_EXAMPLE
 
    Output:
 
@@ -77,7 +79,7 @@ Parenscript-generated JavaScript code.
 
    Define the properties of rules "#foo" and "#foo li"
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
    (css-lite:css
      (("#foo")
        (:length "50px"
@@ -88,7 +90,7 @@ Parenscript-generated JavaScript code.
         :float "left"
         :margin "50 px 30 px"
         :border "1px solid red"))))
-#+END_SRC lisp
+#+END_EXAMPLE
 
    Output:
 
@@ -117,14 +119,14 @@ Parenscript-generated JavaScript code.
 
    You create a CSS variable by using the macro =css-lite:make-css-var=.
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
   (css-lite:make-css-var my-favorite-border-var '(:border "1px solid red"))
   (css-lite:make-css-var my-margin-var '(:margin "50px 30px"))
-#+END_SRC lisp
+#+END_EXAMPLE
 
    Then you could write the third example as this:
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
   (css-lite:css
      (("#foo")
        (:length "50px"
@@ -135,7 +137,7 @@ Parenscript-generated JavaScript code.
         :float "left"
         my-margin-var
         my-favorite-border-var))))
-#+END_SRC lisp        
+#+END_EXAMPLE
 
    Output:
 
@@ -171,7 +173,7 @@ Parenscript-generated JavaScript code.
    property and it's value in inches and converts that value into
    centimeters use this:
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
    (css-lite:make-css-func convert-in-to-cm (property-name value)
      ;; Assumes that `value' is a string with the following
      ;; format: XXin, where XX represent an number greater than 0
@@ -182,31 +184,31 @@ Parenscript-generated JavaScript code.
          (concatenate 'string
            (write-to-string centimeters)
            "cm"))))
-#+END_SRC lisp
+#+END_EXAMPLE
 
    So this call:
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
    (convert-in-to-cm :width "10in")
-#+END_SRC lisp
+#+END_EXAMPLE
 
    Returns this list:
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
    (:WIDTH "4cm")
-#+END_SRC lisp
+#+END_EXAMPLE
 
    So to use this function to convert the height of the identifier
    "#foo" from inches to centimeters, you would write this code:
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
    (css-lite:css
      (("#foo")
        (:length "50px"
         my-margin-var
         (convert-in-to-cm :width "10in")
         my-favorite-border-var)))
-#+END_SRC lisp
+#+END_EXAMPLE
 
    Output:
 
@@ -225,13 +227,13 @@ Parenscript-generated JavaScript code.
 
    To add a CSS comment use the function =css-lite:comment=
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
    (css-lite:css
      (("body")
        ((css-lite:comment "These are the rules for the body tag")
         :width "80%"
         :float "left")))
-#+END_SRC lisp
+#+END_EXAMPLE
 
    Output:
 
@@ -270,22 +272,22 @@ Parenscript-generated JavaScript code.
 
   For example, to indent the rules with 4 spaces, you would type:
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
   (setf css-lite:*indent-css* 4)
-#+END_SRC lisp
+#+END_EXAMPLE
 
   The next time you call as =css-lite:css= function, the code will be
   indented with 4 spaces.
 
   For example, the function =css-lite:css= with this value:
 
-#+BEGIN_SRC lisp
+#+BEGIN_EXAMPLE
  (css-lite:css
      (("body")
        ((css-lite:comment "These are the rules for the body tag")
         :width "80%"
         :float "left")))
-#+END_SRC lisp
+#+END_EXAMPLE
 
 #+BEGIN_EXAMPLE
   "
