@@ -1,0 +1,322 @@
+css-lite is a library for generating CSS from an s-exp based
+syntax. When compiled with [[http://common-lisp.net/project/parenscript/][Parenscript]] loaded in the Lisp
+image, it also provides the same CSS generation facilities in
+Parenscript-generated JavaScript code.
+
+* Instalation
+  First, install [[http://www.quicklisp.org/beta/#installation][Quicklisp]].
+
+  After that, type in your Lisp prompt the following:
+
+#+BEGIN_SRC lisp
+  (ql:quickload 'css-lite)
+#+END_SRC lisp
+
+  It should download and load css-lite. This download is only done
+  once, after that Quicklisp will always load your local copy of
+  css-lite.
+
+* Examples
+  
+  After loading the css-lite library, you are now ready to try these
+  examples.
+
+** First Example
+
+   Set the width of the "body" tag to be 70%
+
+#+BEGIN_EXAMPLE
+  (css-lite:css
+    (("body") (:width "70%")))
+#+END_EXAMPLE
+
+   Output:
+
+#+BEGIN_EXAMPLE
+   "
+   body {
+   width:70%;
+   }
+   "
+#+END_EXAMPLE
+
+   By default, css-lite doesn't indent the properties. If you wish to
+   indent them, see the documentation for the variable
+   =css-lite:*indent-css*=, or the section "Change the indentation" of
+   this README. For example, if you change the value of the variable
+   =css-lite:*indent-css*= to 4, this would be the output:
+
+#+BEGIN_EXAMPLE
+   "
+   body {
+       width:70%;
+   }
+   "
+#+END_EXAMPLE
+   
+** Second Example
+
+   Set the height of the ID "foo" to 50px and the width to 10em
+
+#+BEGIN_EXAMPLE
+   (css-lite:css
+     (("#foo")
+       (:height "50px"
+        :width "10em")))
+#+END_EXAMPLE
+
+   Output:
+
+#+BEGIN_EXAMPLE
+   "
+   #foo {
+   height:50px;
+   width:10em;
+   }
+   "
+#+END_EXAMPLE   
+
+   To do the same thing, but to a class "foo", simply replace "#foo"
+   with ".foo".
+
+#+BEGIN_EXAMPLE
+   (css-lite:css
+     ((".foo")
+       (:height "50px"
+        :width "10em")))
+#+END_EXAMPLE
+
+   Output:
+
+#+BEGIN_EXAMPLE
+   "
+   .foo {
+   height:50px;
+   width:10em;
+   }
+   "
+#+END_EXAMPLE   
+
+** Third Example
+
+   Define the properties of rules "#foo" and "#foo li"
+
+#+BEGIN_EXAMPLE
+   (css-lite:css
+     (("#foo")
+       (:length "50px"
+        :margin "50 px 30 px"
+        :border "1px solid red")
+      (("li")
+       (:width "50px"
+        :float "left"
+        :margin "50 px 30 px"
+        :border "1px solid red"))))
+#+END_EXAMPLE
+
+   Output:
+
+#+BEGIN_EXAMPLE
+   "
+   #foo {
+   length:50px;
+   margin:50 px 30 px;
+   border:1px solid red;
+   }
+   
+   #foo li {
+   width:50px;
+   float:left;
+   margin:50 px 30 px;
+   border:1px solid red;
+   }
+   "
+#+END_EXAMPLE
+
+** Fourth Example
+
+   In the third example, the rules "margin:50 px 30 px;" and
+   "border:1px solid red;" are repeated twice. css-lite has something
+   called CSS variables that allow to abstract this.
+
+   You create a CSS variable by using the macro =css-lite:make-css-var=.
+
+#+BEGIN_EXAMPLE
+  (css-lite:make-css-var my-favorite-border-var '(:border "1px solid red"))
+  (css-lite:make-css-var my-margin-var '(:margin "50px 30px"))
+#+END_EXAMPLE
+
+   Then you could write the third example as this:
+
+#+BEGIN_EXAMPLE
+  (css-lite:css
+     (("#foo")
+       (:length "50px"
+        my-margin-var
+        my-favorite-border-var)
+      (("li")
+       (:width "50px"
+        :float "left"
+        my-margin-var
+        my-favorite-border-var))))
+#+END_EXAMPLE
+
+   Output:
+
+#+BEGIN_EXAMPLE
+   "
+   #foo {
+   length:50px;
+   margin:50px 30px;
+   border:1px solid red;
+   }
+   
+   #foo li {
+   width:50px;
+   float:left;
+   margin:50px 30px;
+   border:1px solid red;
+   }
+   "
+#+END_EXAMPLE
+
+** Fifth Example
+
+   In addition to the CSS variables, css-lite also provides the
+   ability to define CSS functions. This allows you to perform
+   arbitrary modifications on rules.
+
+   This function is declared using the macro =css-lite:make-css-func=
+   and can receive any number of arguments. However, it should return
+   a list with 2 values, the first being the name of the property and
+   the second its value.
+
+   For example, to create a function that receives the name of a
+   property and it's value in inches and converts that value into
+   centimeters use this:
+
+#+BEGIN_EXAMPLE
+   (css-lite:make-css-func convert-in-to-cm (property-name value)
+     ;; Assumes that `value' is a string with the following
+     ;; format: XXin, where XX represent an number greater than 0
+     (let* ((inches (parse-integer
+                      (string-right-trim "in " value)))
+             (centimeters (round (/ inches 2.54))))
+       (list property-name
+         (concatenate 'string
+           (write-to-string centimeters)
+           "cm"))))
+#+END_EXAMPLE
+
+   So this call:
+
+#+BEGIN_EXAMPLE
+   (convert-in-to-cm :width "10in")
+#+END_EXAMPLE
+
+   Returns this list:
+
+#+BEGIN_EXAMPLE
+   (:WIDTH "4cm")
+#+END_EXAMPLE
+
+   So to use this function to convert the height of the identifier
+   "#foo" from inches to centimeters, you would write this code:
+
+#+BEGIN_EXAMPLE
+   (css-lite:css
+     (("#foo")
+       (:length "50px"
+        my-margin-var
+        (convert-in-to-cm :width "10in")
+        my-favorite-border-var)))
+#+END_EXAMPLE
+
+   Output:
+
+#+BEGIN_EXAMPLE
+   "
+   #foo {
+   length:50px;
+   margin:50px 30px;
+   width:4cm;
+   border:1px solid red;
+   }
+   "
+#+END_EXAMPLE   
+
+** Sixth Example
+
+   To add a CSS comment use the function =css-lite:comment=
+
+#+BEGIN_EXAMPLE
+   (css-lite:css
+     (("body")
+       ((css-lite:comment "These are the rules for the body tag")
+        :width "80%"
+        :float "left")))
+#+END_EXAMPLE
+
+   Output:
+
+#+BEGIN_EXAMPLE
+   "
+   body {
+   /*These are the rules for the body tag*/
+   width:80%;
+   float:left;
+   }
+   "
+#+END_EXAMPLE
+
+
+   To see more examples, see the file example-usage.lisp
+
+* Change the indentation
+
+  As you can see be the above examples, by default, css-lite doesn't
+  indent the rules.
+
+  However you can customize this behaviour by changing the value of
+  the variable =css-lite:*indent-css*=.
+
+  There are three possible values:
+
+  * nil - The default value, indicates that no indentation should be
+    performed
+
+  * the symbol 'tab - Indicates that the rules should be indented
+    using a #\Tab character
+
+  * a number greater than 0 - Indicates that the rules should be
+    indented with that many #\Space characters.
+
+
+  For example, to indent the rules with 4 spaces, you would type:
+
+#+BEGIN_EXAMPLE
+  (setf css-lite:*indent-css* 4)
+#+END_EXAMPLE
+
+  The next time you call the =css-lite:css= function, the code will be
+  indented with 4 spaces.
+
+  For example, the calling function =css-lite:css= with this value:
+
+#+BEGIN_EXAMPLE
+ (css-lite:css
+     (("body")
+       ((css-lite:comment "These are the rules for the body tag")
+        :width "80%"
+        :float "left")))
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  "
+  body {
+      /*These are the rules for the body tag*/
+      width:80%;
+      float:left;
+  }
+  "
+#+END_EXAMPLE
