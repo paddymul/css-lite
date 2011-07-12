@@ -76,7 +76,7 @@ Parenscript-generated JavaScript code.
    "
 #+END_EXAMPLE   
 
-   To do the same thing, but to a class foo, simply replace "#foo"
+   To do the same thing, but to a class "foo", simply replace "#foo"
    with ".foo".
 
 #+BEGIN_EXAMPLE
