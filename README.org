@@ -31,6 +31,7 @@ Parenscript-generated JavaScript code.
 #+END_EXAMPLE
 
    Output:
+
 #+BEGIN_EXAMPLE
    "
    body {
@@ -69,6 +70,27 @@ Parenscript-generated JavaScript code.
 #+BEGIN_EXAMPLE
    "
    #foo {
+   height:50px;
+   width:10em;
+   }
+   "
+#+END_EXAMPLE   
+
+   To do the same thing, but to a class foo, simply replace "#foo"
+   with ".foo".
+
+#+BEGIN_EXAMPLE
+   (css-lite:css
+     ((".foo")
+       (:height "50px"
+        :width "10em")))
+#+END_EXAMPLE
+
+   Output:
+
+#+BEGIN_EXAMPLE
+   "
+   .foo {
    height:50px;
    width:10em;
    }
