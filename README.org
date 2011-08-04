@@ -184,7 +184,7 @@ Parenscript-generated JavaScript code.
 
    In addition to the CSS variables, css-lite also provides the
    ability to define CSS functions. This allows you to perform
-   arbitrary modifications on rules.
+   arbitrary modifications on the rules.
 
    This function is declared using the macro =css-lite:make-css-func=
    and can receive any number of arguments. However, it should return
@@ -192,20 +192,20 @@ Parenscript-generated JavaScript code.
    the second its value.
 
    For example, to create a function that receives the name of a
-   property and it's value in inches and converts that value into
+   property and its value in inches and converts that value into
    centimeters use this:
 
 #+BEGIN_EXAMPLE
-   (css-lite:make-css-func convert-in-to-cm (property-name value)
-     ;; Assumes that `value' is a string with the following
-     ;; format: XXin, where XX represent an number greater than 0
-     (let* ((inches (parse-integer
-                      (string-right-trim "in " value)))
-             (centimeters (round (/ inches 2.54))))
-       (list property-name
-         (concatenate 'string
-           (write-to-string centimeters)
-           "cm"))))
+  (css-lite:make-css-func convert-in-to-cm (property-name value)
+    ;; Assumes that `value' is a string with the following
+    ;; format: XXin, where XX represents a number greater than 0
+    (let* ((inches (parse-integer
+                     (string-right-trim "in " value)))
+            (centimeters (round (/ inches 2.54))))
+      (list property-name
+        (concatenate 'string
+          (write-to-string centimeters)
+          "cm"))))
 #+END_EXAMPLE
 
    So this call:
@@ -301,7 +301,7 @@ Parenscript-generated JavaScript code.
   The next time you call the =css-lite:css= function, the code will be
   indented with 4 spaces.
 
-  For example, the calling function =css-lite:css= with this value:
+  For example, calling the function =css-lite:css= with this value:
 
 #+BEGIN_EXAMPLE
  (css-lite:css
@@ -311,6 +311,8 @@ Parenscript-generated JavaScript code.
         :float "left")))
 #+END_EXAMPLE
 
+  Output:
+  
 #+BEGIN_EXAMPLE
   "
   body {
