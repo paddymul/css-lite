@@ -16,9 +16,10 @@ Parenscript-generated JavaScript code.
   once, after that Quicklisp will always load your local copy of
   css-lite.
 
-  Note: In previous versions of css-lite you couldn't call
-  =(ql:quickload 'css-lite)= without having previously called
-  =(ql:quickload 'parenscript)=. This bug has now been fixed.
+  Note: In previous versions of css-lite there was a bug where you
+  sometimes couldn't call =(ql:quickload 'css-lite)= without having
+  previously called =(ql:quickload 'parenscript)=. This bug has
+  hopefully now been fixed.
 
 * Examples
   
