@@ -5,6 +5,7 @@
            #:css
            #:css-string
            #:inline-css
+           #:css-id-name
            #:pt
            #:px
            #:make-css-var
