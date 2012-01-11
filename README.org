@@ -206,7 +206,7 @@ Parenscript-generated JavaScript code.
     ;; format: XXin, where XX represents a number greater than 0
     (let* ((inches (parse-integer
                      (string-right-trim "in " value)))
-            (centimeters (round (/ inches 2.54))))
+            (centimeters (round (* inches 2.54))))
       (list property-name
         (concatenate 'string
           (write-to-string centimeters)
