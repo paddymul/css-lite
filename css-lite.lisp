@@ -133,7 +133,7 @@ There are three possible values:
 
 (defun process-css-rule (rule &key (parent-selectors nil))
   (let ((selectors (if parent-selectors
-                       (flatten (list parent-selectors (car rule)))
+                       (concatenate 'list parent-selectors (car rule))
                        (car rule)))
         (properties (cadr rule))
         (children-rules (cddr rule)))
