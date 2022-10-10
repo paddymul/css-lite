@@ -3,7 +3,7 @@ syntax. When compiled with [[http://common-lisp.net/project/parenscript/][Parens
 image, it also provides the same CSS generation facilities in
 Parenscript-generated JavaScript code.
 
-* Instalation
+* Installation
   First, install [[http://www.quicklisp.org/beta/#installation][Quicklisp]].
 
   After that, type in your Lisp prompt the following:
@@ -22,7 +22,7 @@ Parenscript-generated JavaScript code.
   hopefully now been fixed.
 
 * Examples
-  
+
   After loading the css-lite library, you are now ready to try these
   examples.
 
@@ -58,7 +58,7 @@ Parenscript-generated JavaScript code.
    }
    "
 #+END_EXAMPLE
-   
+
 ** Second Example
 
    Set the height of the ID "foo" to 50px and the width to 10em
@@ -79,7 +79,7 @@ Parenscript-generated JavaScript code.
    width:10em;
    }
    "
-#+END_EXAMPLE   
+#+END_EXAMPLE
 
    To do the same thing, but to a class "foo", simply replace "#foo"
    with ".foo".
@@ -100,7 +100,7 @@ Parenscript-generated JavaScript code.
    width:10em;
    }
    "
-#+END_EXAMPLE   
+#+END_EXAMPLE
 
 ** Third Example
 
@@ -128,7 +128,7 @@ Parenscript-generated JavaScript code.
    margin:50 px 30 px;
    border:1px solid red;
    }
-   
+
    #foo li {
    width:50px;
    float:left;
@@ -175,7 +175,7 @@ Parenscript-generated JavaScript code.
    margin:50px 30px;
    border:1px solid red;
    }
-   
+
    #foo li {
    width:50px;
    float:left;
@@ -248,7 +248,7 @@ Parenscript-generated JavaScript code.
    border:1px solid red;
    }
    "
-#+END_EXAMPLE   
+#+END_EXAMPLE
 
 ** Sixth Example
 
@@ -317,7 +317,7 @@ Parenscript-generated JavaScript code.
 #+END_EXAMPLE
 
   Output:
-  
+
 #+BEGIN_EXAMPLE
   "
   body {
@@ -327,3 +327,18 @@ Parenscript-generated JavaScript code.
   }
   "
 #+END_EXAMPLE
+
+* Tests
+
+Test implemented using the [[https://fiveam.common-lisp.dev/docs/index.html][FiveAM]] test library.
+
+Run tests via the ASDF :TEST-OP
+#+begin_example
+(asdf:oos ':test-op 'css-lite/test)
+#+end_example
+
+Or using the FiveAM run command
+
+#+begin_example
+(fiveam:run! :css-lite)
+#+end_example
