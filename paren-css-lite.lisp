@@ -9,11 +9,11 @@
                 `(ps:+ ,val "pt"))
 
 #+parenscript (ps:defpsmacro css (&body rules)
-                (cons 'ps:+ (ps::concat-constant-strings (mapcan #'process-css-rule rules))))
+                (cons 'ps:+ (ps::concat-constant-strings (mapcan #'css-lite::process-css-rule rules))))
 
 
 #+parenscript (ps:defpsmacro inline-css (&rest properties)
-                (cons 'ps:+ (ps::concat-constant-strings (process-css-properties properties nil :newlines nil))))
+                (cons 'ps:+ (ps::concat-constant-strings (css-lite::process-css-properties properties nil :newlines nil))))
 
 
 #+parenscript (ps:defpsmacro to-string (x)
